@@ -1,0 +1,102 @@
+\documentclass[11pt]{article}
+\input{Sections/macros}
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%% TITLE %%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{ecDNA and random walk}
+\author[1]{Glenn Tesler}
+\author[2]{Vineet Bafna}
+
+
+
+\affil[1]{\footnotesize Department of Mathematics,
+University of California, San Diego, La Jolla, CA 92093, USA}
+\affil[2]{\footnotesize Department of Computer Science \& Engineering, 
+University of California, San Diego, La Jolla, CA 92093, USA}
+%\date{}
+\begin{document}
+%
+\maketitle
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%% ABSTRACT %%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vspace{-6ex}
+%\input{Sections/abstract.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%% MAIN %%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Introduction and Basics}
+\begin{packed_enum}
+\item Copy number amplification (CNA) is a hallmark of cancer, increasing the number of copies of a proliferative element (such as an oncogene) and giving the cell a proliferative advantage.
+\item Usually, the model used to mechanistically explain CNA is a tandem duplication. If there are k copies of the oncogene on a chromosome, then in a single mitosis, it can stay at k, or change to k+1, or k-1. If it hits 0, it stays there. Similarly, if the number changes to $k=M$, the cell either dies or can only decrease in value (we can consider either model).
+\item An alternative model is that of ecDNA. In an ecDNA model, the proliferative element is outside the chromosome. It replicates independently of the chromosome and (perhaps) at the same rate. If there are $k$ copies, then prior to cell-division, we get $2k$ copies, which are then randomly segregated into the two daughter cells.
+\end{packed_enum}
+
+\section{Scientific Objectives (to be expanded)}
+Consider a population of $n$ cells, where each cell has undergone $K$ mitoses. Let $n_i$ denote the number of cells with exactly $i$ ($0\le i\le f(K)$) copies. The function $f(K)=\min\{K,M\}$ for tandem duplication, and $\min\{M,2^K\}$ for ecDNA? Let $p_i=n_i/n$. The \emph{heterogeneity} of copy number can be computed by measuring the entropy as
+\[ -\sum_i p_i\log_2 p_i\;\;.
+\]
+We would like to make the following scientific claims:
+\begin{packed_enum}
+  \item ecDNA model achieves higher heterogeneity than Tandem duplication.
+  \item Suppose there was selection towards a specific copy number. Higher copy numbers make the cell more proliferative and more likely to divide, but having too many copies makes the cell (exceeding $M$) demand more nutrition, and that can lead to cell-death. The ecDNA leads to faster progress towards the target copy number.
+  \item Under neutral evolution, the average copy number shouldn't increase too much. However, under selection for some high copy number, the average copy number increases at a higher rate for ecDNA relative to tandem duplication.
+  \item What happens to heterogeneity under selection? Does it stay higher for the ecDNA model 
+\end{packed_enum}
+My goal with the paper is to develop the mathematical basis for proving these scientific objectives. Note that we have not yet defined the selection function, selection pressure coefficient, etc. These will depend upon the complexity of what we can resolve as well as intuition on what it should be. Also, implicitly, each cell here is considered to be an independent random walk but we would like to put it in a coalescent model as well.
+
+We do not need to prove everything completely to write the paper, because there is the danger of getting stuck. Instead, we should do a mix of theory and simulations.
+
+
+
+\section{Tandem duplications}
+\begin{packed_enum}
+  \item Tandem duplications can be modeled as a 1 dimensional random
+    walk, with a hard boundary at $0$. Let $S_n$ be the r.v. denoting
+    position after $n$ steps. \emph{Question: Compute the entropy of $S_n$, given by
+    $\Exp{-\log \Pr(S_n)}$}.
+  \item Suppose there was no hard boundary. Then, after $n$ steps, the
+    position $S_n=X_1+X_2+\ldots+X_n$ is the sum of independent
+    Bernoulli trials. We can apply Chernoff's bounds to get a sharp
+    concentration, and that can help with the entropy calculation.
+\end{packed_enum}
+
+
+
+\section{ecDNA}
+\begin{packed_enum}
+  \item ecDNA can be modeled as a nested 1 dimensional random walk,
+    with a hard boundary at $0$. Let $S_n$ be the r.v. denoting
+    position after $n$ steps. Then $S_{n+1}=S_n+X_1+X_2+\ldots+X_{S_n}$,
+    where $X_i\in\{0,1\}$ are independent Bernoulli trials.  Our goal
+      is to compute the entropy or $\Exp{-\log \Pr(S_n)}$.
+\end{packed_enum}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%% Acknowledgments %%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Acknowledgments}
+This research was supported in part by grants from the NSF
+(IIS-1318386 and DBI-1458557), and from the NIH (R01GM114362).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%% FIGURES %%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\newpage
+%\input{Sections/figures.tex}
+
+%\bibliographystyle{./Bibliography/naturemag.bst} %plos2015
+%\bibliography{./Bibliography/thesis}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%% Supplementary information %%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\input{Sections/supp-info.tex}
+
+\end{document}
